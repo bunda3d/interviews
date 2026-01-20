@@ -41,7 +41,7 @@ module GameTests =
     let ``it should reject guesses that are empty`` () =
         let startState = GameState.newGame
         let actual = guess startState ""
-        let expected : GameState = { GuessError = Some GuessError.WrongLength} 
+        let expected : GameState = { startState with GuessError = Some GuessError.WrongLength} 
 
         Assert.Equal(expected, actual)
 
@@ -49,7 +49,7 @@ module GameTests =
     let ``it should reject guesses that are too short`` () =
         let startState = GameState.newGame
         let actual = guess startState "1234"
-        let expected = { GuessError = Some GuessError.WrongLength} 
+        let expected = { startState with GuessError = Some GuessError.WrongLength} 
 
         Assert.Equal(expected, actual)
 
@@ -58,7 +58,7 @@ module GameTests =
     let ``it should reject guesses that are too long`` () =
         let startState = GameState.newGame
         let actual = guess startState "123456"
-        let expected = { GuessError = Some GuessError.WrongLength} 
+        let expected = { startState with GuessError = Some GuessError.WrongLength} 
 
         Assert.Equal(expected, actual)
 
@@ -67,7 +67,8 @@ module GameTests =
     [<Fact>]
     let ``it should accept guesses that are exactly the expected length`` () =
         let startState = GameState.newGame
-        let actual = guess startState "12345"
-        let expected = { GuessError = None } 
+        let guessedWord = "12345"
+        let actual = guess startState guessedWord
+        let expected = { Guesses = [guessedWord]; GuessError = None } 
 
         Assert.Equal(expected, actual)
