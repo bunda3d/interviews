@@ -2,6 +2,7 @@
 
 open Xunit
 open Domain
+open Swensen.Unquote
 
 module GuessValidationTests =
     [<Fact>]
@@ -39,36 +40,81 @@ module GameTests =
     
     [<Fact>]
     let ``it should reject guesses that are empty`` () =
-        let startState = GameState.newGame
-        let actual = guess startState ""
-        let expected : GameState = { startState with GuessError = Some GuessError.WrongLength} 
+        let previousTurn = TurnState.firstTurn 
+        let actual = guess (GameState.Active previousTurn) ""
+        let expected : GameState = GameState.Active { previousTurn with GuessError = Some GuessError.WrongLength} 
 
         Assert.Equal(expected, actual)
 
     [<Fact>]
     let ``it should reject guesses that are too short`` () =
-        let startState = GameState.newGame
-        let actual = guess startState "1234"
-        let expected = { startState with GuessError = Some GuessError.WrongLength} 
+        let previousTurn = TurnState.firstTurn 
+        let actual = guess (GameState.Active previousTurn) "1234"
+        let expected = GameState.Active { previousTurn with GuessError = Some GuessError.WrongLength} 
 
         Assert.Equal(expected, actual)
 
 
     [<Fact>]
     let ``it should reject guesses that are too long`` () =
-        let startState = GameState.newGame
-        let actual = guess startState "123456"
-        let expected = { startState with GuessError = Some GuessError.WrongLength} 
+        let previousTurn= TurnState.firstTurn 
+        let actual = guess (GameState.Active previousTurn) "123456"
+        let expected = GameState.Active { previousTurn with GuessError = Some GuessError.WrongLength} 
 
         Assert.Equal(expected, actual)
-
 
 
     [<Fact>]
-    let ``it should accept guesses that are exactly the expected length`` () =
-        let startState = GameState.newGame
-        let guessedWord = "12345"
-        let actual = guess startState guessedWord
-        let expected = { Guesses = [guessedWord]; GuessError = None } 
+    let ``If the game is ended, further guesses are rejects / state doesn't change`` () = 
+        let previousTurn = GameState.Ended GameOutcome.Lose
+        let actual = guess previousTurn "123456"
+        let expected = previousTurn
 
         Assert.Equal(expected, actual)
+
+    [<Fact>]
+    let ``it should accept guesses that are exactly the expected length`` () =
+        let previousTurn = TurnState.firstTurn 
+        let guessedWord = "12345"
+        let actual = guess (GameState.Active previousTurn) guessedWord
+        let expected = GameState.Active { Guesses = [guessedWord]; GuessError = None } 
+
+        Assert.Equal(expected, actual)
+
+
+    [<Fact>]
+    let ``it should continue the game up to 6 guesses`` () =
+        let previousTurn = TurnState.firstTurn 
+        let guessedWord = "12345"
+
+        let mutable previousState = GameState.Active previousTurn 
+        let mutable turnAccumulator = ResizeArray()
+        turnAccumulator.Add(previousState)
+        for _ in [0..4] do
+            let nextState = guess previousState guessedWord
+            previousState <- nextState
+            turnAccumulator.Add(nextState) |> ignore
+        let actual = turnAccumulator |> List.ofSeq
+        let expected = [0..5] |> List.map (fun turnNumber -> GameState.Active { Guesses = List.replicate turnNumber guessedWord ; GuessError = None } )
+
+        expected =! actual
+
+    [<Fact>]
+    let ``The game should end after the 6th guess`` () =
+        let previousTurn = TurnState.firstTurn 
+        let guessedWord = "12345"
+
+        let mutable previousState = GameState.Active previousTurn 
+        let mutable turnAccumulator = ResizeArray()
+        turnAccumulator.Add(previousState)
+        for _ in [0..5] do
+            let nextState = guess previousState guessedWord
+            previousState <- nextState
+            turnAccumulator.Add(nextState) |> ignore
+        let actual = turnAccumulator |> List.ofSeq
+        let expected = List.concat [
+            [0..5] |> List.map (fun turnNumber -> GameState.Active { Guesses = List.replicate turnNumber guessedWord ; GuessError = None } )
+            [GameState.Ended GameOutcome.Lose]
+        ] 
+
+        expected =! actual

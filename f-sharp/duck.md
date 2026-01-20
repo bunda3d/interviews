@@ -36,6 +36,11 @@ Q: Next easiest thing?
 - limit them to 6 guesses
 
 
+Q: what happens if the game ends?
+- we stop taking input
+- we reveal the secret word
+
+
 ## Tasks
 
 - [ ] 
