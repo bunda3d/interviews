@@ -41,6 +41,18 @@ Q: what happens if the game ends?
 - we reveal the secret word
 
 
+PROBLEM: The game state is getting complicated. I want to add a secret word that belongs to the whole game, not the turn, but then I have another layer of nesting for the turn state
+- OPT: Squish the turn state and game state together
+  - CON: we can have invalid game state structures
+  - CON: tests are required to specify data that isn't relevant to them
+  - PRO: It's easy to imagine
+- OPT: 
+
+```fsharp
+
+```
+
+
 ## Tasks
 
 - [ ] 

@@ -7,22 +7,20 @@ type GameOutcome =
     | Win
     | Lose
 
-type TurnState = {
+type GameState = {
+    SecretWord: string
     Guesses: string list
     GuessError: GuessError option
+    Outcome: GameOutcome option
 }
-module TurnState = 
-    let firstTurn = {
-        Guesses = []
-        GuessError = None
-    }
-
-type GameState = 
-    | Active of TurnState
-    | Ended of GameOutcome
 
 module GameState =
-    let newGame : GameState =  TurnState.firstTurn |> GameState.Active
+    let newGame (secretWord: string) : GameState =  {
+        SecretWord = secretWord
+        Guesses = []
+        GuessError = None
+        Outcome = None
+    }
 
 
 
@@ -34,14 +32,14 @@ let validateGuess (word:string) : Result<string, GuessError> =
 
 
 let guess (state: GameState) (word: string):  GameState = 
-    match state with 
-    | Ended _ -> state
-    | Active turnState -> 
+    match state.Outcome with 
+    | Some _ -> state
+    | None -> 
         match validateGuess word with
         | Ok guessedWord -> 
-            let nextState = { turnState with Guesses = turnState.Guesses @ [guessedWord] } 
+            let nextState = { state with Guesses = state.Guesses @ [guessedWord] } 
             if nextState.Guesses.Length > 5 then
-                GameState.Ended GameOutcome.Lose
+                {nextState with Outcome = Some GameOutcome.Lose }
             else 
-                GameState.Active nextState
-        | Error error -> { turnState with GuessError = Some error } |> GameState.Active
+                nextState
+        | Error error -> { state with GuessError = Some error }
