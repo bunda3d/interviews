@@ -1,4 +1,5 @@
-﻿<Solution>
-  <Project Path="Application\Application.csproj" Type="Classic C#" />
-  <Project Path="UnitTests\UnitTests.csproj" Type="Classic C#" />
+<Solution>
+  <Project Path="Application\Application.csproj" Type="C#" />
+  <Project Path="Models/Models.csproj" />
+  <Project Path="UnitTests\UnitTests.csproj" Type="C#" />
 </Solution>

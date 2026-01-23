@@ -24,6 +24,3 @@ This section of the README is used to describe the kata and outline the requirem
 
 ### Requirements
 
-1. Requirement 1
-2. Requirement 2
-3. Requirement 3

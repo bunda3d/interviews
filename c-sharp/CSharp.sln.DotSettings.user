@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=00e37077_002Df9f2_002D4c91_002Db693_002D0a2bc1728a61/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestGridSize" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::6E2561A6-A9A0-8B76-749F-D9DB18D15A3F::net10.0::UnitTests.MinesweeperTests.TestGrid_FromString_3x5&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::6E2561A6-A9A0-8B76-749F-D9DB18D15A3F::net10.0::UnitTests.MinesweeperTests.TestGrid_FromString&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=689cf16b_002Ddea8_002D4c2a_002D9780_002D342d0c2f5626/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestGridSize #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::6E2561A6-A9A0-8B76-749F-D9DB18D15A3F::net9.0::UnitTests.MinesweeperTests.TestGridSize&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
