@@ -57,4 +57,19 @@ public class FizzBuzzTests
     // Then
     Assert.Equal(returnStatus, result);
   }
+
+
+  [Theory]
+  [InlineData(15, "FizzBuzz")]
+  public void GetStatus_ReturnsFizzBuzz_IfDivisibleBy3And5(int input, string returnStatus)
+  {
+    // Given
+    var fizzBuzz = new FizzBuzz();
+
+    // When
+    var result = fizzBuzz.GetStatus(input);
+
+    // Then
+    Assert.Equal(returnStatus, result);
+  }
 }
